@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Labb4_MVCRazor.Models.ViewModels.BookViewModel>
+
+@{
+    ViewData["Title"] = "List of Books";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0" >
+                    <div class="col-md-12 bg-danger bg-opacity-50">
+                        <div class="card-header text-white">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @item.Title
+                                    <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.BookId"><i class="bi bi-pencil-square"></i></a>
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="@item.ImageUrl" width="100%" alt="@item.Title" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">
+                                @if (@item.Description.Length > 80)
+                                {
+                                    @item.Description[..80]
+                                }
+                                else
+                                {
+                                    @item.Description
+                                }
+                            </p>
+                            <p class="card-text"><b>Author: </b>@item.Author</p>
+                            <p class="card-text"><b>Category: </b>@item.BookCategory</p>
+                            <p class="card-text"><b>Published: </b>@item.Published</p>
+                            <p class="card-text">
+                                <b>Available:</b>
+                                @if (item.IsAvailable)
+                                {
+                                    <a class="btn btn-danger opacity-50"asp-controller="BorrowHistories" asp-action="Create" asp-route-id="@item.BookId">Borrow</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-danger opacity-50"asp-controller="BorrowHistories" asp-action="Edit" asp-route-id="@item.BookId">Return</a>
+                                }
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-auto">
+                        <div class="card-footer mt-auto mx-auto align-bottom">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.BookId">
+                                    <i class="bi bi-eye-fill"></i> Show detail
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@await Html.PartialAsync("_CreateButton", "Books")
+

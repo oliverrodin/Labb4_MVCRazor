@@ -1,0 +1,150 @@
+﻿@model Labb4_MVCRazor.Models.ViewModels.ActiveAndReturnedBooksModelView
+
+
+
+<div class="col-md-10 offset-1">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <center>
+                        <h4>Issued Books</h4>
+                    </center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <center>
+                        <img width="100px" src="/Images/books.png" />
+                    </center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Customer</th>
+                            <th>Issue date</th>
+                            <th>Expire date</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model.ActiveBorrows)
+                        {
+                            <tr>
+                                <td>
+                                    <img class="" src="@item.Book.ImageUrl" alt="@item.Book.Title" style="max-width: 150px; height: 100px;" />
+                                </td>
+                                <td>
+                                    <a class="link-dark" asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
+                                        @item.Book.Title
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.Customer.Name
+                                </td>
+                                <td>
+                                    @item.IssueDate.ToString("M/d/yy")
+                                </td>
+                                <td>
+                                    @if (@item.ExpireDate != null)
+                                    {
+                                        @item.ExpireDate?.ToString("M/d/yy")
+                                    }
+
+                                </td>
+                                <td>
+                                    <p class="card-text badge bg-danger"><b>Days left: </b>@((item.ExpireDate?.Day - item.IssueDate.Day))</p>
+                                    <a class="btn btn-danger opacity-50 float-end" asp-controller="BorrowHistories" asp-action="Return" asp-route-id="@item.Id">Return</a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-5"></div>
+<div class="col-md-10 offset-1">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <center>
+                        <h4>Issue History</h4>
+                    </center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <center>
+                        <img width="100px" src="/Images/books.png" />
+                    </center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Customer</th>
+                                <th>Issue Date</th>
+                                <th>Expire Date</th>
+                                <th>Return Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ReturnedBorrows)
+                            {
+                                <tr>
+                                    <td>
+                                        <img class="" src="@item.Book.ImageUrl" alt="@item.Book.Title" style="max-width: 150px; height: 100px;" />
+                                    </td>
+                                    <td>
+                                        <a class="link-dark" asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
+                                            @item.Book.Title
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @item.Customer.Name
+                                    </td>
+                                    <td>
+                                        @item.IssueDate.ToString("M/d/yy")
+                                    </td>
+                                    <td>
+                                        @if (@item.ExpireDate != null)
+                                        {
+                                            @item.ExpireDate?.ToString("M/d/yy")
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @item.ReturnDate.ToString("M/d/yy")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

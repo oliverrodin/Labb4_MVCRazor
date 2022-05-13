@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Customer>
+
+@{
+    ViewData["Title"] = "List of all customers";
+}
+
+<div class="row ">
+    <div class="col-md-10 offset-md-1 mt-5">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.Address)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                            @item.Address
+                        </td>
+                        <td class="text-end">
+                            <a class="btn btn-outline-primary opacity-50" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Edit</a> |
+                            <a class="btn btn-outline-info opacity-50" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details</a> |
+                            <a class="btn btn-danger text-white opacity-50" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+@await Html.PartialAsync("_CreateButton", "Customer")

@@ -1,0 +1,49 @@
+﻿@model Labb4_MVCRazor.Models.ViewModels.ActiveBorrowsViewModel
+
+@{
+    ViewBag.Title = "Borrow a book";
+}
+
+<div class="row text">
+    <div class="mb-3 col-md-8 offset-2">
+        <h1>Borrow a Book</h1>
+    </div>
+    <div class="col-md-8 offset-2">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="CustomerId" class="form-control" type="select" asp-items="ViewBag.Customers">
+                    <option selected>Choose a customer</option>
+                </select>
+                <label asp-for="CustomerId"></label>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.Books">
+                    <option selected>Choose a book</option>
+                </select>
+                <label asp-for="BookId"></label>
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+            
+            <div class="badge bg-danger opacity-50 mb-3 col-md-8 offset-2">
+                <h6><i>*Your issue time start from today and elapse for two week..</i></h6>
+            </div>
+            @*<div class="form-floating mb-3">
+                <input asp-for="IssueDate" class="form-control" type="date" value="@DateTime.Now.ToShortDateString()" readonly/>
+                <label asp-for="IssueDate"></label>
+                <span asp-validation-for="IssueDate" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="ExpireDate" class="form-control" type="date" placeholder="@Html.DisplayNameFor(model => model.ExpireDate)"/>
+                <label asp-for="ExpireDate"></label>
+                <span asp-validation-for="ExpireDate" class="text-danger"></span>
+            </div>*@
+            <div>
+                <input type="submit" value="Create" class="btn btn-outline-success float-end"/>
+                <a asp-action="Index" class="btn btn-outline-primary">Back to list</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,205 @@
+﻿@model Customer
+
+@{
+    ViewData["Title"] = "Details of customer";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h4>Customer Details</h4>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <img width="100px" src="/Images/generaluser.png" />
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control"
+                                       placeholder="@Html.DisplayNameFor(model => model.Name)"
+                                       readonly />
+                                <label asp-for="Name"></label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control"
+                                       placeholder="@Html.DisplayNameFor(model => model.Email)"
+                                       readonly />
+                                <label asp-for="Email"></label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="PhoneNumber" class="form-control"
+                                       placeholder="@Html.DisplayNameFor(model => model.PhoneNumber)"
+                                       readonly />
+                                <label asp-for="PhoneNumber"></label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Address" class="form-control"
+                                       placeholder="@Html.DisplayNameFor(model => model.Address)"
+                                       readonly />
+                                <label asp-for="Address"></label>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-danger opacity-50 float-end">Edit</a>
+                                <a asp-action="Index" class="btn btn-outline-danger opacity-50">Back to list</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h4>Issued Books</h4>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <img width="100px" src="/Images/books.png" />
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Issue Date</th>
+                                    <th>Expire Date</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.ActiveBorrows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img class="" src="@item.Book.ImageUrl" alt="@item.Book.Title" style="max-width: 150px; height: 100px;" />
+                                        </td>
+                                        <td>
+                                            @item.Book.Title
+                                        </td>
+                                        <td>
+                                            @item.IssueDate.ToString("M/d/yy")
+                                        </td>
+                                        <td>
+                                            @if (@item.ExpireDate != null)
+                                            {
+                                                @item.ExpireDate?.ToString("M/d/yy")
+                                            }
+                                                                            
+                                        </td>
+                                        <td>
+                                            <p class="card-text badge bg-danger"><b>Days left: </b>@((item.ExpireDate?.Day - item.IssueDate.Day))</p>
+                                            <a class="btn btn-danger opacity-50 float-end" asp-controller="BorrowHistories" asp-action="Return" asp-route-id="@item.Id">Return</a>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-3"></div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h4>Issue History</h4>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <img width="100px" src="/Images/books.png" />
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Title</th>
+                                    <th>Issue Date</th>
+                                    <th>Expire Date</th>
+                                    <th>Return Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.ReturnedBorrows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img class="" src="@item.Book.ImageUrl" alt="@item.Book.Title" style="max-width: 150px; height: 100px;" />
+                                        </td>
+                                        <td>
+                                            @item.Book.Title
+                                        </td>
+                                        <td>
+                                            @item.IssueDate.ToString("M/d/yy")
+                                        </td>
+                                        <td>
+                                            @if (@item.ExpireDate != null)
+                                            {
+                                                @item.ExpireDate?.ToString("M/d/yy")
+                                            }
+                                                                            
+                                        </td>
+                                        <td>
+                                            @item.ReturnDate.ToString("M/d/yy")
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
